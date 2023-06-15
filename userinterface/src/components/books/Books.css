@@ -1,0 +1,143 @@
+.books-page {
+    background: linear-gradient(to bottom right, #000000, rgb(70, 70, 114));
+    color: #ffffff;
+    padding: 20px;
+    padding-bottom: 30px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .page-title {
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 30px;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .genres-button,
+  .add-book-button {
+    flex: 1;
+  }
+  
+  .genres-button {
+    background-color: rgba(72, 72, 116, 0.514);
+  }
+  
+  .add-book-button {
+    background-color: #657092;
+  }
+  
+  .genres-button,
+  .add-book-button {
+    color: #ffffff;
+    border: whitesmoke;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+  }
+  
+  .genres-button:hover,
+  .add-book-button:hover {
+    background-color: #5657a5;
+  }
+  
+  .genres-dropdown {
+    position: absolute;
+    background-color: #333333;
+    padding: 10px;
+    margin-top: 5px;
+    display: none;
+    z-index: 1;
+  }
+  
+  .genres-button:hover .genres-dropdown {
+    display: block;
+  }
+  
+  .genres-dropdown button {
+    background-color: transparent;
+    border: white;
+    color: #ffffff;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: border-width 0.2s cubic-bezier(0.42, 0, 0.58, 1);
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .genres-dropdown button:hover {
+    background-color: #e0acac;
+  }
+  
+  .add-book-form {
+    background-color: #333333;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .add-book-form h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .add-book-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    background-color: #ffffff;
+    border: none;
+  }
+  
+  .table {
+    width: 100%;
+    background-color: #333333;
+  }
+  
+  .table-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .table-header {
+    background-color: #555555;
+    font-weight: bold;
+  }
+  
+  .table-cell {
+    flex: 1;
+    padding: 10px;
+  }
+  
+  .table-cell:nth-child(1) {
+    flex: 2;
+  }
+  
+  .table-cell:last-child {
+    text-align: center;
+  }
+  
+  .table-cell button {
+    background-color: #888888;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .table-cell button:hover {
+    background-color: #555555;
+  }
+  

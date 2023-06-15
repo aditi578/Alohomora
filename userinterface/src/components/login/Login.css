@@ -1,0 +1,58 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("https://img.freepik.com/free-photo/cosmic-background-with-blue-purple-neon-laser-lights-geometric-shapes_181624-59858.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  
+  
+  form.login,
+  form.register {
+    width: 30%;
+    margin: 10px;
+    padding: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  .login-container form.login {
+    margin-right: 20px;
+  }
+  
+  
+  input {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+  }
+  
+  button {
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    background-color: rgb(70, 70, 114);
+    border: 0;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  form.login h1,
+  form.register h1 {
+    text-align: center;
+    color: rgb(90, 90, 134);
+  }
+  
