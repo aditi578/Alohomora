@@ -1,0 +1,46 @@
+.student-page {
+    background: linear-gradient(to bottom right, #000000, rgb(70, 70, 114));
+    padding: 20px;
+    padding-bottom: 30px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .student-page h2 {
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 30px;
+    color: #ffffff; /* Set text color to white */
+  }
+  
+  .student-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: #ffffff; /* Set table content text color to white */
+  }
+  
+  .student-table th {
+    background-color: #f1f1f1;
+    text-align: left;
+    color: #000000; /* Set table column heading text color to black */
+  }
+  
+  .student-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .student-table tbody tr:nth-child(even) {
+    background-color: #45424d;
+    
+  }
+  
+  .student-table tbody tr:hover td {
+    background-color: #f5f5f5; /* Set table row background color on hover */
+    color: #000000;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
