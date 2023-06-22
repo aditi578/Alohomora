@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
-  const isLoginPage = window.location.pathname === '/login';
-
+  const location = useLocation();
   const [mode, setMode] = useState('light');
 
   const toggleMode = () => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
 
+  useEffect(() => {
+    if (location.pathname === '/login') {
+      document.body.classList.add('hide-navbar');
+    } else {
+      document.body.classList.remove('hide-navbar');
+    }
+  }, [location]);
+
+  if (location.pathname === '/login') {
+    return null; // Don't render the Navbar on the login page
+  }
+
   return (
-    <nav className={`navbar ${mode}`} style={isLoginPage ? { display: 'none' } : {}}>
+    <nav className={`navbar ${mode}`}>
       <ul className="navbar-list">
         <li className="navbar-item">
           <Link to="/home" className="navbar-link">

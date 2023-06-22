@@ -83,6 +83,7 @@ const Books = () => {
 
   return (
     <div className="books-page">
+      <Navbar/>
       <h1 className="page-title">Books Page</h1>
 
       <div className="buttons">
