@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Student.css';
+import Navbar from '../navbar/Navbar';
+import '../navbar/Navbar.css';
 
 const Student = () => {
   const [students, setStudents] = useState([]);
@@ -73,6 +75,7 @@ const Student = () => {
 
   return (
     <div className="student-page">
+      <Navbar/>
       <h2>Student Page</h2>
 
       <div className="student-form">
