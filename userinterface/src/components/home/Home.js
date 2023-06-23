@@ -3,68 +3,34 @@ import './Home.css';
 import Navbar from '../navbar/Navbar';
 import '../navbar/Navbar.css';
 
+
 const Home = () => {
-  const [isStudentFlipped, setIsStudentFlipped] = useState(false);
-  const [isBooksFlipped, setIsBooksFlipped] = useState(false);
-
-  const flipStudentCard = () => {
-    setIsStudentFlipped(!isStudentFlipped);
-  };
-
-  const flipBooksCard = () => {
-    setIsBooksFlipped(!isBooksFlipped);
-  };
-
   return (
-    <div className="home-container">
-      <Navbar />
-      <h1 className="heading">Student Management System</h1>
+    <div className="container">
+      <Navbar/>
+      <h1 className="title">Library Management System</h1>
       <p className="description">
-        A comprehensive system to manage student information and academic records.
+      The Library Management System is a comprehensive solution designed to efficiently organize and keep a track of Books and Students. It provides a user-friendly interface for users.This project is made using MERN stack 
       </p>
       <div className="card-container">
-        <div
-          className={`card ${isStudentFlipped ? 'flipped' : ''}`}
-          onClick={flipStudentCard}
-        >
-          <div className="flip-card-inner">
-            <div className="flip-card-front">
-              <h2>Students</h2>
-            </div>
-            <div className="flip-card-back">
-              <div className="card-content">
-                <h3>Students Section</h3>
-                {isStudentFlipped && (
-                  <>
-                    <p>Student content goes here</p>
-                    <p>You can add more content as needed</p>
-                    <p>Add some lines of your own content</p>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
+        <div className="card">
+          <h2 className="card-title">Students</h2>
+          <p className="card-description">
+            Manage student information and track their borrowing history their id, Phone no, 
+          </p>
         </div>
-        <div className={`card ${isBooksFlipped ? 'flipped' : ''}`} onClick={flipBooksCard}>
-          <div className="flip-card-inner">
-            <div className="flip-card-front">
-              <h2>Books</h2>
-            </div>
-            <div className="flip-card-back">
-              <div className="card-content">
-                <h3>Books Section</h3>
-                {isBooksFlipped && (
-                  <>
-                    <p>Books content goes here</p>
-                    <p>You can add more content as needed</p>
-                    <p>Add some lines of your own content</p>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
+        <div className="card">
+          <h2 className="card-title">Books</h2>
+          <p className="card-description">
+            Organize and categorize books, track availability, and manage loans.
+          </p>
         </div>
       </div>
+      <footer className="footer">
+        <p className="footer-text">
+          &copy; 2023 Aditi Rathore and Gunwant Singh - All rights reserved
+        </p>
+      </footer>
     </div>
   );
 };

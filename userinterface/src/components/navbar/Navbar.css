@@ -85,3 +85,13 @@
 .navbar.dark .navbar-link:hover {
   background-color: #222222;
 }
+
+.dark-mode-body {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.dark-mode-navbar {
+  background-color: #333333;
+  color: #ffffff;
+}
