@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const cors = require("cors");
 const Book = require("./models/bookModel");
+
+// Enable CORS for requests from http://localhost:3000
+router.use(cors({ origin: "http://localhost:3000" }));
 
 // Create a new book
 router.post("/", async (req, res) => {

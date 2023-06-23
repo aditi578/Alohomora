@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Home.css';
 import Navbar from '../navbar/Navbar';
 import '../navbar/Navbar.css';
+import { BASE_URL } from '../../config'
 
 const Home = () => {
   const [isStudentFlipped, setIsStudentFlipped] = useState(false);

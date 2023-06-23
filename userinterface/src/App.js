@@ -5,6 +5,8 @@ import Books from './components/books/Books';
 import Navbar from './components/navbar/Navbar';
 import Student from './components/student/Student';
 import Home from './components/home/Home';
+import { BASE_URL } from './config';
+
 
 const App = () => {
   return (

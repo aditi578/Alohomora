@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Books.css';
 import Navbar from '../navbar/Navbar';
-import '../navbar/Navbar.css';
+import { BASE_URL } from '../../config';
 
 const Books = () => {
   const [books, setBooks] = useState([]);
@@ -10,25 +11,22 @@ const Books = () => {
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
   const [code, setCode] = useState('');
-  const [selectedBookIndex, setSelectedBookIndex] = useState(null);
 
-  // Function to handle adding or updating a book
-  const addOrUpdateBook = () => {
-    if (selectedBookIndex !== null) {
-      // Update existing book
-      const updatedBook = {
-        title,
-        author,
-        description,
-        code,
-        genre: selectedGenre,
-      };
-      const updatedBooks = [...books];
-      updatedBooks[selectedBookIndex] = updatedBook;
-      setBooks(updatedBooks);
-      setSelectedBookIndex(null);
-    } else {
-      // Add new book
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/books`);
+      setBooks(response.data);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
+  };
+
+  const addBook = async () => {
+    if (title && author && description && code && selectedGenre) {
       const newBook = {
         title,
         author,
@@ -36,37 +34,45 @@ const Books = () => {
         code,
         genre: selectedGenre,
       };
-      setBooks([...books, newBook]);
+  
+      try {
+        const response = await axios.post(`${BASE_URL}/books`, newBook);
+        const addedBook = response.data; // Assuming the response contains the added book
+        setBooks([...books, addedBook]); // Add the new book to the existing books array
+        setTitle('');
+        setAuthor('');
+        setDescription('');
+        setCode('');
+        setSelectedGenre('');
+      } catch (error) {
+        console.error('Error adding book:', error);
+      }
+    } else {
+      alert('Please fill in all fields.');
     }
-    // Clear form inputs
-    setTitle('');
-    setAuthor('');
-    setDescription('');
-    setCode('');
-    setSelectedGenre('');
   };
 
-  // Function to handle selecting a genre
-  const selectGenre = (genre) => {
-    setSelectedGenre(genre);
+  const deleteBook = async (bookId) => {
+    try {
+      await axios.delete(`${BASE_URL}/books/${bookId}`);
+      const updatedBooks = books.filter((book) => book._id !== bookId);
+      setBooks(updatedBooks);
+    } catch (error) {
+      console.error('Error deleting book:', error);
+    }
   };
+  
 
-  // Function to handle deleting a book
-  const deleteBook = (index) => {
-    const updatedBooks = [...books];
-    updatedBooks.splice(index, 1);
-    setBooks(updatedBooks);
-  };
-
-  // Function to handle editing a book
-  const editBook = (index) => {
-    const bookToEdit = books[index];
-    setTitle(bookToEdit.title);
-    setAuthor(bookToEdit.author);
-    setDescription(bookToEdit.description);
-    setCode(bookToEdit.code);
-    setSelectedGenre(bookToEdit.genre);
-    setSelectedBookIndex(index);
+  const editBook = async (bookId) => {
+    const bookToEdit = books.find((book) => book._id === bookId);
+    if (bookToEdit) {
+      setTitle(bookToEdit.title);
+      setAuthor(bookToEdit.author);
+      setDescription(bookToEdit.description);
+      setCode(bookToEdit.code);
+      setSelectedGenre(bookToEdit.genre);
+      deleteBook(bookId); // Delete the existing book from the backend
+    }
   };
 
   const genres = [
@@ -83,32 +89,11 @@ const Books = () => {
 
   return (
     <div className="books-page">
-      <Navbar/>
+      <Navbar />
       <h1 className="page-title">Books Page</h1>
 
-      <div className="buttons">
-        <div className="genres-button">
-          Genres
-          <div className="genres-dropdown">
-            {genres.map((genre, index) => (
-              <button
-                key={index}
-                className={selectedGenre === genre ? 'active' : ''}
-                onClick={() => selectGenre(genre)}
-              >
-                {genre}
-              </button>
-            ))}
-          </div>
-        </div>
-        <button className="add-book-button" onClick={addOrUpdateBook}>
-          {selectedBookIndex !== null ? 'Update Book' : 'Add Book'}
-        </button>
-      </div>
-
-      {/* Add Book Form */}
       <div className="add-book-form">
-        <h2>{selectedBookIndex !== null ? 'Edit Book' : 'Add Book'}</h2>
+        <h2>Add Book</h2>
         <input
           type="text"
           placeholder="Book Title"
@@ -148,9 +133,11 @@ const Books = () => {
             ))}
           </select>
         </div>
+        <button className="add-book-button" onClick={addBook}>
+          Add Book
+        </button>
       </div>
 
-      {/* View Books */}
       <div className="table">
         <div className="table-row table-header">
           <div className="table-cell">Book Title</div>
@@ -162,22 +149,22 @@ const Books = () => {
         </div>
         <div className="table-body">
           {books.length > 0 ? (
-            books.map((book, index) => {
+            books.map((book) => {
               if (
                 selectedGenre === '' ||
                 selectedGenre === 'All Books' ||
                 selectedGenre === book.genre
               ) {
                 return (
-                  <div className="table-row" key={index}>
+                  <div className="table-row" key={book._id}>
                     <div className="table-cell">{book.title}</div>
                     <div className="table-cell">{book.author}</div>
                     <div className="table-cell">{book.description}</div>
                     <div className="table-cell">{book.code}</div>
                     <div className="table-cell">{book.genre}</div>
                     <div className="table-cell">
-                      <button onClick={() => deleteBook(index)}>Delete</button>
-                      <button onClick={() => editBook(index)}>Edit</button>
+                      <button onClick={() => deleteBook(book._id)}>Delete</button>
+                      <button onClick={() => editBook(book._id)}>Edit</button>
                     </div>
                   </div>
                 );

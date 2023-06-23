@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Student.css';
 import Navbar from '../navbar/Navbar';
 import '../navbar/Navbar.css';
+import { BASE_URL } from '../../config'
 
 const Student = () => {
   const [students, setStudents] = useState([]);
