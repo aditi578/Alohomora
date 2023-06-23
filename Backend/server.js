@@ -3,19 +3,21 @@ const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
-const User = require("./models/studentModel");
 const userController = require("./studentController");
 const bookController = require("./bookController");
 
 app.use(express.json());
 
 mongoose
-  .connect(process.env.URI)
+  .connect(process.env.URI || "mongodb://127.0.0.1:27017/libdb", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected Successfully");
-    app.listen(process.env.PORT || 8000, (err) => {
+    app.listen(process.env.PORT || 5000, (err) => {
       if (err) console.log(err);
-      console.log("Running Successfully at", process.env.PORT);
+      console.log("Running Successfully at", process.env.PORT || 5000);
     });
   })
   .catch((error) => {
@@ -28,3 +30,5 @@ app.use("/books", bookController); // Use bookController for handling book route
 app.get("/", (req, res) => {
   res.send("API running");
 });
+
+module.exports = app;
