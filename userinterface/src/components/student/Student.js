@@ -11,9 +11,18 @@ const Student = () => {
     id: '',
     email: '',
     phone: '',
+    selectedBooks: [],
   });
-
   const [editingIndex, setEditingIndex] = useState(-1);
+  const [allBooks, setAllBooks] = useState([
+    // Initialize with some sample books
+    'Book 1',
+    'Book 2',
+    'Book 3',
+    'Book 4',
+    'Book 5',
+  ]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,6 +44,7 @@ const Student = () => {
           id: '',
           email: '',
           phone: '',
+          selectedBooks: [],
         });
       }
     } else {
@@ -66,6 +76,7 @@ const Student = () => {
           id: '',
           email: '',
           phone: '',
+          selectedBooks: [],
         });
         setEditingIndex(-1);
       }
@@ -74,9 +85,29 @@ const Student = () => {
     }
   };
 
+  const handleBookSelection = (e) => {
+    const selectedBookName = e.target.value.toLowerCase();
+    const selectedBook = allBooks.find((book) => book.toLowerCase() === selectedBookName);
+  
+    if (selectedBook) {
+      if (!newStudent.selectedBooks.includes(selectedBook)) {
+        setNewStudent((prevStudent) => ({
+          ...prevStudent,
+          selectedBooks: [...prevStudent.selectedBooks, selectedBook],
+        }));
+        setErrorMessage('');
+      } else {
+        setErrorMessage('Book already selected.');
+      }
+    } else {
+      setErrorMessage('Book not found.');
+    }
+  };
+  
+
   return (
     <div className="student-page">
-      <Navbar/>
+      <Navbar />
       <h2>Student Page</h2>
 
       <div className="student-form">
@@ -102,18 +133,30 @@ const Student = () => {
           placeholder="Enter student email"
         />
         <input
-          type="text"
+          type="number"
           name="phone"
           value={newStudent.phone}
           onChange={handleInputChange}
           placeholder="Enter student phone"
         />
-        {editingIndex === -1 ? (
-          <button onClick={handleAddStudent}>Add Student</button>
-        ) : (
-          <button onClick={handleUpdateStudent}>Update Student</button>
-        )}
+        <div>
+          <label htmlFor="bookSelection">Select Book:</label>
+          <input
+            type="text"
+            id="bookSelection"
+            value={newStudent.selectedBook}
+            onChange={handleBookSelection}
+            placeholder="Enter book title"
+          />
+          {errorMessage && <p>{errorMessage}</p>}
+        </div>
       </div>
+
+      {editingIndex === -1 ? (
+        <button onClick={handleAddStudent}>Add Student</button>
+      ) : (
+        <button onClick={handleUpdateStudent}>Update Student</button>
+      )}
 
       <table className="student-table">
         <thead>
@@ -122,6 +165,7 @@ const Student = () => {
             <th>Student ID</th>
             <th>Student Email</th>
             <th>Student Phone</th>
+            <th>Selected Books</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -133,8 +177,15 @@ const Student = () => {
               <td>{student.email}</td>
               <td>{student.phone}</td>
               <td>
-                <button onClick={() => handleEditStudent(index)}>Edit</button>
+                <ul>
+                  {student.selectedBooks.map((book, bookIndex) => (
+                    <li key={bookIndex}>{book}</li>
+                  ))}
+                </ul>
+              </td>
+              <td>
                 <button onClick={() => handleDeleteStudent(index)}>Delete</button>
+                <button onClick={() => handleEditStudent(index)}>Edit</button>
               </td>
             </tr>
           ))}

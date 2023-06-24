@@ -4,7 +4,7 @@ import './Books.css';
 import Navbar from '../navbar/Navbar';
 import { BASE_URL } from '../../config';
 
-const Books = () => {
+const Books = ({ students }) => {
   const [books, setBooks] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('');
   const [title, setTitle] = useState('');
@@ -145,6 +145,7 @@ const Books = () => {
           <div className="table-cell">Book Description</div>
           <div className="table-cell">Book Code</div>
           <div className="table-cell">Genre</div>
+          <div className="table-cell">Selected Students</div>
           <div className="table-cell">Actions</div>
         </div>
         <div className="table-body">
@@ -155,6 +156,11 @@ const Books = () => {
                 selectedGenre === 'All Books' ||
                 selectedGenre === book.genre
               ) {
+                // Filter students who have selected the current book
+                const selectedStudents = students.filter((student) =>
+                  student.selectedBooks.includes(book.title)
+                );
+
                 return (
                   <div className="table-row" key={book._id}>
                     <div className="table-cell">{book.title}</div>
@@ -163,8 +169,20 @@ const Books = () => {
                     <div className="table-cell">{book.code}</div>
                     <div className="table-cell">{book.genre}</div>
                     <div className="table-cell">
+<<<<<<< HEAD
                       <button onClick={() => deleteBook(book._id)}>Delete</button>
                       <button onClick={() => editBook(book._id)}>Edit</button>
+=======
+                      <ul>
+                        {selectedStudents.map((student, studentIndex) => (
+                          <li key={studentIndex}>{student.name}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="table-cell">
+                      <button onClick={() => deleteBook(index)}>Delete</button>
+                      <button onClick={() => editBook(index)}>Edit</button>
+>>>>>>> e020164d7d7aedbe9f60bb68f0864ce9cf65679d
                     </div>
                   </div>
                 );

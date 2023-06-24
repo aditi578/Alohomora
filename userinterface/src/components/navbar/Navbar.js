@@ -12,6 +12,14 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    if (mode === 'dark') {
+      document.body.classList.add('dark-mode-body');
+    } else {
+      document.body.classList.remove('dark-mode-body');
+    }
+  }, [mode]);
+
+  useEffect(() => {
     if (location.pathname === '/login') {
       document.body.classList.add('hide-navbar');
     } else {
@@ -24,7 +32,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className={`navbar ${mode}`}>
+    <nav className={`navbar ${mode === 'dark' ? 'dark-mode-navbar' : ''}`}>
       <ul className="navbar-list">
         <li className="navbar-item">
           <Link to="/home" className="navbar-link">
