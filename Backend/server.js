@@ -24,7 +24,7 @@ mongoose
     console.log("Error", error);
   });
 
-app.use("/users", userController); // Use userController for handling user routes
+app.use("/students", userController); // Use userController for handling user routes
 app.use("/books", bookController); // Use bookController for handling book routes
 
 app.get("/", (req, res) => {
