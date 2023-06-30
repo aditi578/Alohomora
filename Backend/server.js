@@ -2,10 +2,10 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-dotenv.config();
-const userController = require("./studentController");
+const studentController = require("./studentController");
 const bookController = require("./bookController");
 
+dotenv.config();
 app.use(express.json());
 
 mongoose
@@ -24,8 +24,8 @@ mongoose
     console.log("Error", error);
   });
 
-app.use("/students", userController); // Use userController for handling user routes
-app.use("/books", bookController); // Use bookController for handling book routes
+app.use("/students", studentController);
+app.use("/books", bookController);
 
 app.get("/", (req, res) => {
   res.send("API running");

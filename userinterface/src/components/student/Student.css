@@ -1,46 +1,232 @@
 .student-page {
-    background: linear-gradient(to bottom right, #000000, rgb(70, 70, 114));
-    padding: 20px;
-    padding-bottom: 30px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .student-page h2 {
-    text-align: center;
-    font-size: 50px;
-    margin-bottom: 30px;
-    color: #ffffff; /* Set text color to white */
-  }
-  
-  .student-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    color: #ffffff; /* Set table content text color to white */
-  }
-  
-  .student-table th {
-    background-color: #f1f1f1;
-    text-align: left;
-    color: #000000; /* Set table column heading text color to black */
-  }
-  
-  .student-table td {
-    padding: 10px;
-    border: 1px solid #ccc;
-  }
-  
-  .student-table tbody tr:nth-child(even) {
-    background-color: #45424d;
-    
-  }
-  
-  .student-table tbody tr:hover td {
-    background-color: #f5f5f5; /* Set table row background color on hover */
-    color: #000000;
-  }
-  
-  .error-message {
-    color: red;
-  }
-  
+  background: linear-gradient(to bottom right, #414141, rgb(70, 70, 114));
+  color: #ffffff;
+  padding: 20px;
+  padding-bottom: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.student-page h2 {
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 30px;
+}
+
+.student-form {
+  width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+.student-form h2 {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.student-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.student-form button {
+  width: 100%;
+  background-color: #414141;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.table {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.table-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.table-header {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.table-cell {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.table-cell:nth-child(1) {
+  flex: 2;
+}
+
+.table-cell:last-child {
+  text-align: center;
+}
+
+.table-cell button {
+  background-color: #414141;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.table-cell button:hover {
+  background-color: #f5f5f5;
+}
+
+.student-list {
+  margin-top: 20px;
+}
+
+.student-list h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.student-list table {
+  width: 100%;
+}
+
+.student-list table th {
+  background-color: #f1f1f1;
+  text-align: left;
+  color: #000000;
+  font-weight: bold;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.student-list table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.student-list table tbody tr:nth-child(even) {
+  background-color: #45424d;
+}
+
+.student-list table tbody tr:hover td {
+  background-color: #f5f5f5;
+  color: #000000;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.genres-button,
+.add-book-button {
+  flex: 1;
+}
+
+.genres-button {
+  background-color: rgba(72, 72, 116, 0.514);
+}
+
+.add-book-button {
+  background-color: #657092;
+}
+
+.books-page {
+  background: linear-gradient(to bottom right, #000000, rgb(70, 70, 114));
+  color: #ffffff;
+  padding: 20px;
+  padding-bottom: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.genres-button,
+.add-book-button {
+  flex: 1;
+}
+
+.genres-button {
+  background-color: rgba(72, 72, 116, 0.514);
+}
+
+.add-book-button {
+  background-color: #657092;
+}
+
+.genres-button:hover,
+.add-book-button:hover {
+  background-color: #5657a5;
+}
+
+.genres-dropdown {
+  position: absolute;
+  background-color: #333333;
+  padding: 10px;
+  margin-top: 5px;
+  display: none;
+  z-index: 1;
+}
+
+.genres-button:hover .genres-dropdown {
+  display: block;
+}
+
+.genres-dropdown button {
+  background-color: transparent;
+  border: white;
+  color: #ffffff;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: border-width 0.2s cubic-bezier(0.42, 0, 0.58, 1);
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.genres-dropdown button:hover {
+  background-color: #e0acac;
+}
+
+.add-book-form {
+  background-color: #333333;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.add-book-form h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.add-book-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  background-color: #ffffff;
+  border: none;
+}
