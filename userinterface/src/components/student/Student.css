@@ -1,49 +1,84 @@
+/* styles.css */
+
+/* Colors */
+:root {
+  --primary-color: #000000;
+  --background-color: #f8f8f8;
+  --text-color: #000000;
+  --button-background: #ff4d4d;
+  --button-color: #ffffff;
+  --button-hover-background: #ff3333;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #c6d7eb;
+    --text-color: #000000;
+    --button-background: #398dd6;
+    --button-color: #ffffff;
+    --button-hover-background: #000000;
+  }
+}
+
+/* Overall layout */
+/* Overall layout */
 .student-page {
-  background: linear-gradient(to bottom right, #414141, rgb(70, 70, 114));
+  min-height: 100vh;
+  background-color: var(--background-color);
+  /* background: linear-gradient(to bottom right, #414141, rgb(70, 70, 114)); */
   color: #ffffff;
   padding: 20px;
   padding-bottom: 30px;
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
-.student-page h2 {
-  text-align: center;
-  font-size: 50px;
-  margin-bottom: 30px;
-}
-
+/* Student Form */
 .student-form {
-  width: 500px;
-  margin: 0 auto;
+  width: 100%;
   padding: 20px;
-  background-color: #ffffff;
-  border-radius: 5px;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
 }
+
 
 .student-form h2 {
-  text-align: center;
-  font-size: 20px;
-  margin-bottom: 30px;
+  color: var(--primary-color);
+  margin-bottom: 10px;
 }
 
 .student-form input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 10px;
 }
 
 .student-form button {
   width: 100%;
-  background-color: #414141;
-  color: #ffffff;
-  font-size: 16px;
+  background-color: var(--button-background);
+  color: var(--button-color);
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-.table {
+.student-form button:hover {
+  background-color: var(--button-hover-background);
+}
+
+/* Rest of the styles remain unchanged */
+
+
+  .table {
   width: 100%;
-  background-color: #ffffff;
+  background-color: #c6d7eb;
+  border-collapse: collapse;
 }
 
 .table-row {
@@ -53,14 +88,15 @@
 }
 
 .table-header {
-  background-color: #f1f1f1;
+  background-color: var(--primary-color);
+  color: #000000;
   font-weight: bold;
 }
 
 .table-cell {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
 }
 
 .table-cell:nth-child(1) {
@@ -72,7 +108,7 @@
 }
 
 .table-cell button {
-  background-color: #414141;
+  background-color: var(--primary-color);
   color: #ffffff;
   border: none;
   padding: 5px 10px;
@@ -82,11 +118,12 @@
 }
 
 .table-cell button:hover {
-  background-color: #f5f5f5;
+  background-color: var(--button-hover-background);
 }
 
 .student-list {
   margin-top: 20px;
+  color: var(--text-color);
 }
 
 .student-list h3 {
@@ -99,9 +136,9 @@
 }
 
 .student-list table th {
-  background-color: #f1f1f1;
+  background-color: var(--primary-color);
+  color: #ffffff;
   text-align: left;
-  color: #000000;
   font-weight: bold;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -114,119 +151,5 @@
   font-size: 16px;
 }
 
-.student-list table tbody tr:nth-child(even) {
-  background-color: #45424d;
-}
 
-.student-list table tbody tr:hover td {
-  background-color: #f5f5f5;
-  color: #000000;
-  cursor: pointer;
-}
 
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.genres-button,
-.add-book-button {
-  flex: 1;
-}
-
-.genres-button {
-  background-color: rgba(72, 72, 116, 0.514);
-}
-
-.add-book-button {
-  background-color: #657092;
-}
-
-.books-page {
-  background: linear-gradient(to bottom right, #000000, rgb(70, 70, 114));
-  color: #ffffff;
-  padding: 20px;
-  padding-bottom: 30px;
-  font-family: Arial, sans-serif;
-}
-
-.page-title {
-  text-align: center;
-  font-size: 50px;
-  margin-bottom: 30px;
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.genres-button,
-.add-book-button {
-  flex: 1;
-}
-
-.genres-button {
-  background-color: rgba(72, 72, 116, 0.514);
-}
-
-.add-book-button {
-  background-color: #657092;
-}
-
-.genres-button:hover,
-.add-book-button:hover {
-  background-color: #5657a5;
-}
-
-.genres-dropdown {
-  position: absolute;
-  background-color: #333333;
-  padding: 10px;
-  margin-top: 5px;
-  display: none;
-  z-index: 1;
-}
-
-.genres-button:hover .genres-dropdown {
-  display: block;
-}
-
-.genres-dropdown button {
-  background-color: transparent;
-  border: white;
-  color: #ffffff;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: border-width 0.2s cubic-bezier(0.42, 0, 0.58, 1);
-  display: block;
-  width: 100%;
-  text-align: left;
-}
-
-.genres-dropdown button:hover {
-  background-color: #e0acac;
-}
-
-.add-book-form {
-  background-color: #333333;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.add-book-form h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.add-book-form input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  background-color: #ffffff;
-  border: none;
-}

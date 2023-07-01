@@ -140,16 +140,16 @@ const Books = () => {
         </button>
       </div>
 
-      <div className="table">
-        <div className="table-row table-header">
-          <div className="table-cell">Book Title</div>
-          <div className="table-cell">Book Author</div>
-          <div className="table-cell">Book Description</div>
-          <div className="table-cell">Book Code</div>
-          <div className="table-cell">Genre</div>
-          <div className="table-cell">Actions</div>
+      <div className="table2">
+        <div className="table-row2 table-header">
+          <div className="table-cell2">Book Title</div>
+          <div className="table-cell2">Book Author</div>
+          <div className="table-cell2">Book Description</div>
+          <div className="table-cell2">Book Code</div>
+          <div className="table-cell2">Genre</div>
+          <div className="table-cell2">Actions</div>
         </div>
-        <div className="table-body">
+        <div className="table-body2">
           {books.length > 0 ? (
             books.map((book) => {
               if (
@@ -159,12 +159,12 @@ const Books = () => {
               ) {
                 return (
                   <div className="table-row" key={book._id}>
-                    <div className="table-cell">{book.title}</div>
-                    <div className="table-cell">{book.author}</div>
-                    <div className="table-cell">{book.description}</div>
-                    <div className="table-cell">{book.code}</div>
-                    <div className="table-cell">{book.genre}</div>
-                    <div className="table-cell">
+                    <div className="table-cell3">{book.title}</div>
+                    <div className="table-cell3">{book.author}</div>
+                    <div className="table-cell3">{book.description}</div>
+                    <div className="table-cell3">{book.code}</div>
+                    <div className="table-cell3">{book.genre}</div>
+                    <div className="table-cell3">
                       <button onClick={() => deleteBook(book._id)}>Delete</button>
                       <button onClick={() => editBook(book._id)}>Edit</button>
                     </div>
