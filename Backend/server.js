@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const studentController = require("./studentController");
 const bookController = require("./bookController");
+const userController = require("./userController");
 
 dotenv.config();
 app.use(express.json());
@@ -26,6 +27,7 @@ mongoose
 
 app.use("/students", studentController);
 app.use("/books", bookController);
+app.use("/users", userController);
 
 app.get("/", (req, res) => {
   res.send("API running");
