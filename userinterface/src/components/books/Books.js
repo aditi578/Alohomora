@@ -5,6 +5,7 @@ import Navbar from '../navbar/Navbar';
 import { BASE_URL } from '../../config';
 
 const Books = () => {
+  // State variables to store book data and form inputs
   const [books, setBooks] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('');
   const [title, setTitle] = useState('');
@@ -13,13 +14,15 @@ const Books = () => {
   const [code, setCode] = useState('');
 
   useEffect(() => {
+    // Fetch books data when the component mounts
     fetchBooks();
   }, []);
 
   const fetchBooks = async () => {
     try {
+      // Fetch books data from the API
       const response = await axios.get(`${BASE_URL}/books`);
-      setBooks(response.data);
+      setBooks(response.data); // Update the books state with the fetched data
     } catch (error) {
       console.error('Error fetching books:', error);
     }
@@ -36,6 +39,7 @@ const Books = () => {
       };
 
       try {
+        // Send a POST request to add a new book
         const response = await axios.post(`${BASE_URL}/books`, newBook);
         const addedBook = response.data; // Assuming the response contains the added book
         setBooks([...books, addedBook]); // Add the new book to the existing books array
@@ -57,18 +61,20 @@ const Books = () => {
 
   const deleteBook = async (bookId) => {
     try {
+      // Send a DELETE request to remove the book
       await axios.delete(`${BASE_URL}/books/${bookId}`);
       const updatedBooks = books.filter((book) => book._id !== bookId);
-      setBooks(updatedBooks);
+      setBooks(updatedBooks); // Update the books state after deletion
     } catch (error) {
       console.error('Error deleting book:', error);
     }
   };
 
   const editBook = async (bookId) => {
+    // Find the book to be edited from the books state
     const bookToEdit = books.find((book) => book._id === bookId);
     if (bookToEdit) {
-      setTitle(bookToEdit.title);
+      setTitle(bookToEdit.title); // Set the form inputs with the book data
       setAuthor(bookToEdit.author);
       setDescription(bookToEdit.description);
       setCode(bookToEdit.code);
@@ -77,6 +83,7 @@ const Books = () => {
     }
   };
   
+  // List of genres for the dropdown select
   const genres = [
     'All Books',
     'Adventure',
@@ -100,32 +107,32 @@ const Books = () => {
           type="text"
           placeholder="Book Title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)} // Update the title state on input change
         />
         <input
           type="text"
           placeholder="Book Author"
           value={author}
-          onChange={(e) => setAuthor(e.target.value)}
+          onChange={(e) => setAuthor(e.target.value)} // Update the author state on input change
         />
         <input
           type="text"
           placeholder="Book Description"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => setDescription(e.target.value)} // Update the description state on input change
         />
         <input
           type="text"
           placeholder="Book Code"
           value={code}
-          onChange={(e) => setCode(e.target.value)}
+          onChange={(e) => setCode(e.target.value)} // Update the code state on input change
         />
         <div className="genre-dropdown">
           <label htmlFor="genre-select">Genre:</label>
           <select
             id="genre-select"
             value={selectedGenre}
-            onChange={(e) => setSelectedGenre(e.target.value)}
+            onChange={(e) => setSelectedGenre(e.target.value)} // Update the selectedGenre state on select change
           >
             <option value="">Select Genre</option>
             {genres.map((genre, index) => (

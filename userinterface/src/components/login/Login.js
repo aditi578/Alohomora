@@ -3,31 +3,33 @@ import './Login.css';
 import axios from 'axios';
 
 function Login() {
+  // State variables to store form input values and registration mode
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
 
   const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+    setUsername(event.target.value); // Update the username state on input change
   };
 
   const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+    setPassword(event.target.value); // Update the password state on input change
   };
 
   const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+    setEmail(event.target.value); // Update the email state on input change
   };
 
   const handleToggleMode = () => {
-    setIsRegistering(!isRegistering);
+    setIsRegistering(!isRegistering); // Toggle the registration mode
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       if (isRegistering) {
+        // Registration form submission
         const response = await axios.post('http://localhost:5000/users/register', {
           username,
           email,
@@ -36,6 +38,7 @@ function Login() {
         console.log('Registration successful:', response.data.message);
         // Perform any additional actions after successful registration
       } else {
+        // Login form submission
         const response = await axios.post('http://localhost:5000/users/login', {
           username,
           password,

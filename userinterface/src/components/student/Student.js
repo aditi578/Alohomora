@@ -18,6 +18,7 @@ const Student = () => {
     fetchStudents();
   }, []);
 
+  // Fetch the list of students from the backend API
   const fetchStudents = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/students`);
@@ -27,15 +28,18 @@ const Student = () => {
     }
   };
 
+  // Update the newStudent state based on the input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewStudent((prevStudent) => ({ ...prevStudent, [name]: value }));
   };
 
+  // Check if a student with the same ID already exists
   const isDuplicateId = (id) => {
     return students.some((student) => student.studentId === id);
   };
 
+  // Add a new student to the backend and update the state
   const handleAddStudent = async () => {
     if (newStudent.name && newStudent.studentId && newStudent.email && newStudent.mobileNumber) {
       if (isDuplicateId(newStudent.studentId)) {
@@ -60,6 +64,7 @@ const Student = () => {
     }
   };
 
+  // Delete a student from the backend and update the state
   const handleDeleteStudent = async (studentId) => {
     try {
       await axios.delete(`${BASE_URL}/students/${studentId}`);
@@ -70,6 +75,7 @@ const Student = () => {
     }
   };
 
+  // Set the newStudent state to the selected student for editing
   const handleEditStudent = (index) => {
     setEditingIndex(index);
     const editedStudent = students[index];
@@ -80,7 +86,8 @@ const Student = () => {
       mobileNumber: editedStudent.mobileNumber,
     });
   };
-  
+
+  // Update an existing student in the backend and update the state
   const handleUpdateStudent = async () => {
     if (newStudent.name && newStudent.studentId && newStudent.email && newStudent.mobileNumber) {
       if (!isDuplicateId(newStudent.studentId)) {
@@ -110,8 +117,6 @@ const Student = () => {
       alert('Please fill in all fields.');
     }
   };
-  
-  
 
   return (
     <div className="student-page">
