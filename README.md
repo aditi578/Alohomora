@@ -4,8 +4,13 @@ This repository contains a Library Management System built using the MERN (Mongo
 
 ## Features
 
-- Book Management: Librarians can add, update, and delete books in the library's collection. Each book has information such as title, author, ISBN, and genre.
-
+- Book Management: Add, update, and delete books with details like title, author, ISBN, and genre.
+- Student Management: Add, update, and delete student records with name, contact info, and Student ID.
+- User Authentication: Only authorized librarians can access management features through login.
+- Books Page: View, add, and manage books in the library's collection.
+- Students Page: View, add, and manage student records in the system.
+- Login and Register Pages: Librarians can log in and register to access the system.
+- Frontend Data Management: Easily edit book and student records from the user interface.
 
 ## Installation
 
