@@ -1,108 +1,122 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Student.css';
 import Navbar from '../navbar/Navbar';
-import '../navbar/Navbar.css';
+import { BASE_URL } from '../../config';
 
 const Student = () => {
   const [students, setStudents] = useState([]);
   const [newStudent, setNewStudent] = useState({
     name: '',
-    id: '',
+    studentId: '',
     email: '',
-    phone: '',
-    selectedBooks: [],
+    mobileNumber: '',
   });
   const [editingIndex, setEditingIndex] = useState(-1);
-  const [allBooks, setAllBooks] = useState([
-    // Initialize with some sample books
-    'Book 1',
-    'Book 2',
-    'Book 3',
-    'Book 4',
-    'Book 5',
-  ]);
-  const [errorMessage, setErrorMessage] = useState('');
 
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  // Fetch the list of students from the backend API
+  const fetchStudents = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/students`);
+      setStudents(response.data);
+    } catch (error) {
+      console.error('Error fetching students:', error);
+    }
+  };
+
+  // Update the newStudent state based on the input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewStudent((prevStudent) => ({ ...prevStudent, [name]: value }));
   };
 
+  // Check if a student with the same ID already exists
   const isDuplicateId = (id) => {
-    return students.some((student) => student.id === id);
+    return students.some((student) => student.studentId === id);
   };
 
-  const handleAddStudent = () => {
-    if (newStudent.name && newStudent.id && newStudent.email && newStudent.phone) {
-      if (isDuplicateId(newStudent.id)) {
+  // Add a new student to the backend and update the state
+  const handleAddStudent = async () => {
+    if (newStudent.name && newStudent.studentId && newStudent.email && newStudent.mobileNumber) {
+      if (isDuplicateId(newStudent.studentId)) {
         alert('Student with the same ID already exists.');
       } else {
-        setStudents([...students, newStudent]);
-        setNewStudent({
-          name: '',
-          id: '',
-          email: '',
-          phone: '',
-          selectedBooks: [],
-        });
+        try {
+          const response = await axios.post(`${BASE_URL}/students`, newStudent);
+          const addedStudent = response.data;
+          setStudents([...students, addedStudent]);
+          setNewStudent({
+            name: '',
+            studentId: '',
+            email: '',
+            mobileNumber: '',
+          });
+        } catch (error) {
+          console.error('Error adding student:', error);
+        }
       }
     } else {
       alert('Please fill in all fields.');
     }
   };
 
-  const handleDeleteStudent = (index) => {
-    const updatedStudents = [...students];
-    updatedStudents.splice(index, 1);
-    setStudents(updatedStudents);
+  // Delete a student from the backend and update the state
+  const handleDeleteStudent = async (studentId) => {
+    try {
+      await axios.delete(`${BASE_URL}/students/${studentId}`);
+      const updatedStudents = students.filter((student) => student.studentId !== studentId);
+      setStudents(updatedStudents);
+    } catch (error) {
+      console.error('Error deleting student:', error);
+    }
   };
 
+  // Set the newStudent state to the selected student for editing
   const handleEditStudent = (index) => {
     setEditingIndex(index);
-    setNewStudent(students[index]);
+    const editedStudent = students[index];
+    setNewStudent({
+      name: editedStudent.name,
+      studentId: editedStudent.studentId,
+      email: editedStudent.email,
+      mobileNumber: editedStudent.mobileNumber,
+    });
   };
 
-  const handleUpdateStudent = () => {
-    if (newStudent.name && newStudent.id && newStudent.email && newStudent.phone) {
-      if (isDuplicateId(newStudent.id)) {
-        alert('Student with the same ID already exists.');
+  // Update an existing student in the backend and update the state
+  const handleUpdateStudent = async () => {
+    if (newStudent.name && newStudent.studentId && newStudent.email && newStudent.mobileNumber) {
+      if (!isDuplicateId(newStudent.studentId)) {
+        try {
+          const response = await axios.put(
+            `${BASE_URL}/students/${newStudent.studentId}`,
+            newStudent
+          );
+          const updatedStudent = response.data;
+          const updatedStudents = [...students];
+          updatedStudents[editingIndex] = updatedStudent;
+          setStudents(updatedStudents);
+          setNewStudent({
+            name: '',
+            studentId: '',
+            email: '',
+            mobileNumber: '',
+          });
+          setEditingIndex(-1);
+        } catch (error) {
+          console.error('Error updating student:', error);
+        }
       } else {
-        const updatedStudents = [...students];
-        updatedStudents[editingIndex] = newStudent;
-        setStudents(updatedStudents);
-        setNewStudent({
-          name: '',
-          id: '',
-          email: '',
-          phone: '',
-          selectedBooks: [],
-        });
-        setEditingIndex(-1);
+        alert('Student with the same ID already exists.');
       }
     } else {
       alert('Please fill in all fields.');
     }
   };
-
-  const handleBookSelection = (e) => {
-    const selectedBookName = e.target.value.toLowerCase();
-    const selectedBook = allBooks.find((book) => book.toLowerCase() === selectedBookName);
-  
-    if (selectedBook) {
-      if (!newStudent.selectedBooks.includes(selectedBook)) {
-        setNewStudent((prevStudent) => ({
-          ...prevStudent,
-          selectedBooks: [...prevStudent.selectedBooks, selectedBook],
-        }));
-        setErrorMessage('');
-      } else {
-        setErrorMessage('Book already selected.');
-      }
-    } else {
-      setErrorMessage('Book not found.');
-    }
-  };
-  
 
   return (
     <div className="student-page">
@@ -115,81 +129,64 @@ const Student = () => {
           name="name"
           value={newStudent.name}
           onChange={handleInputChange}
-          placeholder="Enter student name"
+          placeholder="Name"
         />
         <input
           type="text"
-          name="id"
-          value={newStudent.id}
+          name="studentId"
+          value={newStudent.studentId}
           onChange={handleInputChange}
-          placeholder="Enter student ID"
+          placeholder="Student ID"
         />
         <input
-          type="text"
+          type="email"
           name="email"
           value={newStudent.email}
           onChange={handleInputChange}
-          placeholder="Enter student email"
+          placeholder="Email"
         />
         <input
-          type="number"
-          name="phone"
-          value={newStudent.phone}
+          type="text"
+          name="mobileNumber"
+          value={newStudent.mobileNumber}
           onChange={handleInputChange}
-          placeholder="Enter student phone"
+          placeholder="Phone"
         />
-        <div>
-          <label htmlFor="bookSelection">Select Book:</label>
-          <input
-            type="text"
-            id="bookSelection"
-            value={newStudent.selectedBook}
-            onChange={handleBookSelection}
-            placeholder="Enter book title"
-          />
-          {errorMessage && <p>{errorMessage}</p>}
-        </div>
+        {editingIndex === -1 ? (
+          <button onClick={handleAddStudent}>Add Student</button>
+        ) : (
+          <button onClick={handleUpdateStudent}>Update Student</button>
+        )}
       </div>
 
-      {editingIndex === -1 ? (
-        <button onClick={handleAddStudent}>Add Student</button>
-      ) : (
-        <button onClick={handleUpdateStudent}>Update Student</button>
-      )}
-
-      <table className="student-table">
-        <thead>
-          <tr>
-            <th>Student Name</th>
-            <th>Student ID</th>
-            <th>Student Email</th>
-            <th>Student Phone</th>
-            <th>Selected Books</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student, index) => (
-            <tr key={index}>
-              <td>{student.name}</td>
-              <td>{student.id}</td>
-              <td>{student.email}</td>
-              <td>{student.phone}</td>
-              <td>
-                <ul>
-                  {student.selectedBooks.map((book, bookIndex) => (
-                    <li key={bookIndex}>{book}</li>
-                  ))}
-                </ul>
-              </td>
-              <td>
-                <button onClick={() => handleDeleteStudent(index)}>Delete</button>
-                <button onClick={() => handleEditStudent(index)}>Edit</button>
-              </td>
+      <div className="student-list">
+        <h3>Students</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Student ID</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {students.map((student, index) => (
+              <tr key={student.studentId}>
+                <td>{student.name}</td>
+                <td>{student.studentId}</td>
+                <td>{student.email}</td>
+                <td>{student.mobileNumber}</td>
+                <td>
+                  <button onClick={() => handleEditStudent(index)}>Edit</button>
+                  <button onClick={() => handleDeleteStudent(student.studentId)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

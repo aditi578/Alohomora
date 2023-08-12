@@ -1,46 +1,155 @@
+/* styles.css */
+
+/* Colors */
+:root {
+  --primary-color: #000000;
+  --background-color: #f8f8f8;
+  --text-color: #000000;
+  --button-background: #ff4d4d;
+  --button-color: #ffffff;
+  --button-hover-background: #ff3333;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #c6d7eb;
+    --text-color: #000000;
+    --button-background: #398dd6;
+    --button-color: #ffffff;
+    --button-hover-background: #000000;
+  }
+}
+
+/* Overall layout */
+/* Overall layout */
 .student-page {
-    background: linear-gradient(to bottom right, #000000, rgb(70, 70, 114));
-    padding: 20px;
-    padding-bottom: 30px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .student-page h2 {
-    text-align: center;
-    font-size: 50px;
-    margin-bottom: 30px;
-    color: #ffffff; /* Set text color to white */
-  }
-  
-  .student-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    color: #ffffff; /* Set table content text color to white */
-  }
-  
-  .student-table th {
-    background-color: #f1f1f1;
-    text-align: left;
-    color: #000000; /* Set table column heading text color to black */
-  }
-  
-  .student-table td {
-    padding: 10px;
-    border: 1px solid #ccc;
-  }
-  
-  .student-table tbody tr:nth-child(even) {
-    background-color: #45424d;
-    
-  }
-  
-  .student-table tbody tr:hover td {
-    background-color: #f5f5f5; /* Set table row background color on hover */
-    color: #000000;
-  }
-  
-  .error-message {
-    color: red;
-  }
-  
+  min-height: 100vh;
+  background-color: var(--background-color);
+  /* background: linear-gradient(to bottom right, #414141, rgb(70, 70, 114)); */
+  color: #ffffff;
+  padding: 20px;
+  padding-bottom: 30px;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Student Form */
+.student-form {
+  width: 100%;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+
+.student-form h2 {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.student-form input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.student-form button {
+  width: 100%;
+  background-color: var(--button-background);
+  color: var(--button-color);
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.student-form button:hover {
+  background-color: var(--button-hover-background);
+}
+
+/* Rest of the styles remain unchanged */
+
+
+  .table {
+  width: 100%;
+  background-color: #c6d7eb;
+  border-collapse: collapse;
+}
+
+.table-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.table-header {
+  background-color: var(--primary-color);
+  color: #000000;
+  font-weight: bold;
+}
+
+.table-cell {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #000000;
+}
+
+.table-cell:nth-child(1) {
+  flex: 2;
+}
+
+.table-cell:last-child {
+  text-align: center;
+}
+
+.table-cell button {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.table-cell button:hover {
+  background-color: var(--button-hover-background);
+}
+
+.student-list {
+  margin-top: 20px;
+  color: var(--text-color);
+}
+
+.student-list h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.student-list table {
+  width: 100%;
+}
+
+.student-list table th {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.student-list table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+
+

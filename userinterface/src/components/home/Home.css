@@ -6,13 +6,13 @@
 .title {
   font-size: 48px;
   font-weight: bold;
-  color: #333;
+  color: #787070;
   margin-top: 100px;
 }
 
 .description {
   font-size: 24px;
-  color: #666;
+  color: #787070;
   margin-top: 20px;
 }
 
@@ -20,9 +20,8 @@
   display: flex;
   justify-content: center;
   margin-top: 50px;
-  margin-bottom: 50px; /* Add margin-bottom for space */
+  margin-bottom: 50px;
 }
-
 
 .card {
   width: 350px;
@@ -64,7 +63,37 @@
 }
 
 .footer-text {
+  color: #f2f2f2;
   font-size: 14px;
   text-align: center;
   margin: 2px 0;
 }
+
+/* Additional Styles for Enhanced Appearance */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.navbar {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+}
+
+.navbar-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-link {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.navbar-link:hover {
+  text-decoration: underline;
+}
+

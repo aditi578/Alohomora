@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const cors = require("cors");
 const Book = require("./models/bookModel");
+
+// Enable CORS for requests from http://localhost:3000
+router.use(cors({ origin: "http://localhost:3000" }));
 
 // Create a new book
 router.post("/", async (req, res) => {
@@ -56,10 +60,10 @@ router.put("/:bookCode", async (req, res) => {
 });
 
 // Delete a book
-router.delete("/:bookCode", async (req, res) => {
+router.delete("/:bookId", async (req, res) => {
   try {
-    const bookCode = req.params.bookCode;
-    const deletedBook = await Book.findOneAndDelete({ code: bookCode });
+    const bookId = req.params.bookId;
+    const deletedBook = await Book.findOneAndDelete({ _id: bookId });
     if (!deletedBook) {
       return res.status(404).json({ error: "Book not found" });
     }
@@ -79,6 +83,17 @@ router.get("/search", async (req, res) => {
     if (author) query.author = author;
     if (genre) query.genre = genre;
     const books = await Book.find(query);
+    res.json(books);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Get all books
+router.get("/", async (req, res) => {
+  try {
+    const books = await Book.find();
     res.json(books);
   } catch (error) {
     console.error(error);

@@ -1,34 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Books.css';
 import Navbar from '../navbar/Navbar';
-import '../navbar/Navbar.css';
+import { BASE_URL } from '../../config';
 
-const Books = ({ students }) => {
+const Books = () => {
+  // State variables to store book data and form inputs
   const [books, setBooks] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('');
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
   const [code, setCode] = useState('');
-  const [selectedBookIndex, setSelectedBookIndex] = useState(null);
 
-  // Function to handle adding or updating a book
-  const addOrUpdateBook = () => {
-    if (selectedBookIndex !== null) {
-      // Update existing book
-      const updatedBook = {
-        title,
-        author,
-        description,
-        code,
-        genre: selectedGenre,
-      };
-      const updatedBooks = [...books];
-      updatedBooks[selectedBookIndex] = updatedBook;
-      setBooks(updatedBooks);
-      setSelectedBookIndex(null);
-    } else {
-      // Add new book
+  useEffect(() => {
+    // Fetch books data when the component mounts
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      // Fetch books data from the API
+      const response = await axios.get(`${BASE_URL}/books`);
+      setBooks(response.data); // Update the books state with the fetched data
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
+  };
+
+  const addBook = async () => {
+    if (title && author && description && code && selectedGenre) {
       const newBook = {
         title,
         author,
@@ -36,39 +37,53 @@ const Books = ({ students }) => {
         code,
         genre: selectedGenre,
       };
-      setBooks([...books, newBook]);
+
+      try {
+        // Send a POST request to add a new book
+        const response = await axios.post(`${BASE_URL}/books`, newBook);
+        const addedBook = response.data; // Assuming the response contains the added book
+        setBooks([...books, addedBook]); // Add the new book to the existing books array
+        setTitle('');
+        setAuthor('');
+        setDescription('');
+        setCode('');
+        setSelectedGenre('');
+
+        // Fetch the updated books data again
+        fetchBooks();
+      } catch (error) {
+        console.error('Error adding book:', error);
+      }
+    } else {
+      alert('Please fill in all fields.');
     }
-    // Clear form inputs
-    setTitle('');
-    setAuthor('');
-    setDescription('');
-    setCode('');
-    setSelectedGenre('');
   };
 
-  // Function to handle selecting a genre
-  const selectGenre = (genre) => {
-    setSelectedGenre(genre);
+  const deleteBook = async (bookId) => {
+    try {
+      // Send a DELETE request to remove the book
+      await axios.delete(`${BASE_URL}/books/${bookId}`);
+      const updatedBooks = books.filter((book) => book._id !== bookId);
+      setBooks(updatedBooks); // Update the books state after deletion
+    } catch (error) {
+      console.error('Error deleting book:', error);
+    }
   };
 
-  // Function to handle deleting a book
-  const deleteBook = (index) => {
-    const updatedBooks = [...books];
-    updatedBooks.splice(index, 1);
-    setBooks(updatedBooks);
+  const editBook = async (bookId) => {
+    // Find the book to be edited from the books state
+    const bookToEdit = books.find((book) => book._id === bookId);
+    if (bookToEdit) {
+      setTitle(bookToEdit.title); // Set the form inputs with the book data
+      setAuthor(bookToEdit.author);
+      setDescription(bookToEdit.description);
+      setCode(bookToEdit.code);
+      setSelectedGenre(bookToEdit.genre);
+      deleteBook(bookId); // Delete the existing book from the backend
+    }
   };
-
-  // Function to handle editing a book
-  const editBook = (index) => {
-    const bookToEdit = books[index];
-    setTitle(bookToEdit.title);
-    setAuthor(bookToEdit.author);
-    setDescription(bookToEdit.description);
-    setCode(bookToEdit.code);
-    setSelectedGenre(bookToEdit.genre);
-    setSelectedBookIndex(index);
-  };
-
+  
+  // List of genres for the dropdown select
   const genres = [
     'All Books',
     'Adventure',
@@ -86,59 +101,38 @@ const Books = ({ students }) => {
       <Navbar />
       <h1 className="page-title">Books Page</h1>
 
-      <div className="buttons">
-        <div className="genres-button">
-          Genres
-          <div className="genres-dropdown">
-            {genres.map((genre, index) => (
-              <button
-                key={index}
-                className={selectedGenre === genre ? 'active' : ''}
-                onClick={() => selectGenre(genre)}
-              >
-                {genre}
-              </button>
-            ))}
-          </div>
-        </div>
-        <button className="add-book-button" onClick={addOrUpdateBook}>
-          {selectedBookIndex !== null ? 'Update Book' : 'Add Book'}
-        </button>
-      </div>
-
-      {/* Add Book Form */}
       <div className="add-book-form">
-        <h2>{selectedBookIndex !== null ? 'Edit Book' : 'Add Book'}</h2>
+        <h2>Add Book</h2>
         <input
           type="text"
           placeholder="Book Title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)} // Update the title state on input change
         />
         <input
           type="text"
           placeholder="Book Author"
           value={author}
-          onChange={(e) => setAuthor(e.target.value)}
+          onChange={(e) => setAuthor(e.target.value)} // Update the author state on input change
         />
         <input
           type="text"
           placeholder="Book Description"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => setDescription(e.target.value)} // Update the description state on input change
         />
         <input
           type="text"
           placeholder="Book Code"
           value={code}
-          onChange={(e) => setCode(e.target.value)}
+          onChange={(e) => setCode(e.target.value)} // Update the code state on input change
         />
         <div className="genre-dropdown">
           <label htmlFor="genre-select">Genre:</label>
           <select
             id="genre-select"
             value={selectedGenre}
-            onChange={(e) => setSelectedGenre(e.target.value)}
+            onChange={(e) => setSelectedGenre(e.target.value)} // Update the selectedGenre state on select change
           >
             <option value="">Select Genre</option>
             {genres.map((genre, index) => (
@@ -148,49 +142,38 @@ const Books = ({ students }) => {
             ))}
           </select>
         </div>
+        <button className="add-book-button" onClick={addBook}>
+          Add Book
+        </button>
       </div>
 
-      {/* View Books */}
-      <div className="table">
-        <div className="table-row table-header">
-          <div className="table-cell">Book Title</div>
-          <div className="table-cell">Book Author</div>
-          <div className="table-cell">Book Description</div>
-          <div className="table-cell">Book Code</div>
-          <div className="table-cell">Genre</div>
-          <div className="table-cell">Selected Students</div>
-          <div className="table-cell">Actions</div>
+      <div className="table2">
+        <div className="table-row2 table-header">
+          <div className="table-cell2">Book Title</div>
+          <div className="table-cell2">Book Author</div>
+          <div className="table-cell2">Book Description</div>
+          <div className="table-cell2">Book Code</div>
+          <div className="table-cell2">Genre</div>
+          <div className="table-cell2">Actions</div>
         </div>
-        <div className="table-body">
+        <div className="table-body2">
           {books.length > 0 ? (
-            books.map((book, index) => {
+            books.map((book) => {
               if (
                 selectedGenre === '' ||
                 selectedGenre === 'All Books' ||
                 selectedGenre === book.genre
               ) {
-                // Filter students who have selected the current book
-                const selectedStudents = students.filter((student) =>
-                  student.selectedBooks.includes(book.title)
-                );
-
                 return (
-                  <div className="table-row" key={index}>
-                    <div className="table-cell">{book.title}</div>
-                    <div className="table-cell">{book.author}</div>
-                    <div className="table-cell">{book.description}</div>
-                    <div className="table-cell">{book.code}</div>
-                    <div className="table-cell">{book.genre}</div>
-                    <div className="table-cell">
-                      <ul>
-                        {selectedStudents.map((student, studentIndex) => (
-                          <li key={studentIndex}>{student.name}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="table-cell">
-                      <button onClick={() => deleteBook(index)}>Delete</button>
-                      <button onClick={() => editBook(index)}>Edit</button>
+                  <div className="table-row" key={book._id}>
+                    <div className="table-cell3">{book.title}</div>
+                    <div className="table-cell3">{book.author}</div>
+                    <div className="table-cell3">{book.description}</div>
+                    <div className="table-cell3">{book.code}</div>
+                    <div className="table-cell3">{book.genre}</div>
+                    <div className="table-cell3">
+                      <button onClick={() => deleteBook(book._id)}>Delete</button>
+                      <button onClick={() => editBook(book._id)}>Edit</button>
                     </div>
                   </div>
                 );

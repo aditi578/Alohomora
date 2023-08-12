@@ -1,16 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const Student = require("./models/studnetModel");
+const cors = require("cors");
+const Student = require("./models/studentModel");
+
+// Enable CORS for requests from http://localhost:3000
+router.use(cors({ origin: "http://localhost:3000" }));
 
 // Create a new student
 router.post("/", async (req, res) => {
   try {
-    const { name, id, email, mobileNo } = req.body;
+    const { name, studentId, email, mobileNumber } = req.body;
     const newStudent = await Student.create({
       name,
-      id,
+      studentId,
       email,
-      mobileNo,
+      mobileNumber,
     });
     res.status(201).json(newStudent);
   } catch (error) {
@@ -19,11 +23,11 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Retrieve student details
-router.get("/:id", async (req, res) => {
+// Retrieve student details by studentId
+router.get("/:studentId", async (req, res) => {
   try {
-    const studentId = req.params.id;
-    const student = await Student.findById(studentId);
+    const studentId = req.params.studentId;
+    const student = await Student.findOne({ studentId });
     if (!student) {
       return res.status(404).json({ error: "Student not found" });
     }
@@ -34,14 +38,14 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update student details
-router.put("/:id", async (req, res) => {
+// Update student details by studentId
+router.put("/:studentId", async (req, res) => {
   try {
-    const studentId = req.params.id;
-    const { name, id, email, mobileNo } = req.body;
-    const updatedStudent = await Student.findByIdAndUpdate(
-      studentId,
-      { name, id, email, mobileNo },
+    const studentId = req.params.studentId;
+    const { name, email, mobileNumber } = req.body;
+    const updatedStudent = await Student.findOneAndUpdate(
+      { studentId },
+      { name, email, mobileNumber },
       { new: true }
     );
     if (!updatedStudent) {
@@ -54,15 +58,26 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Delete a student
-router.delete("/:id", async (req, res) => {
+// Delete a student by studentId
+router.delete("/:studentId", async (req, res) => {
   try {
-    const studentId = req.params.id;
-    const deletedStudent = await Student.findByIdAndDelete(studentId);
+    const studentId = req.params.studentId;
+    const deletedStudent = await Student.findOneAndDelete({ studentId });
     if (!deletedStudent) {
       return res.status(404).json({ error: "Student not found" });
     }
     res.json({ message: "Student deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Get all students
+router.get("/", async (req, res) => {
+  try {
+    const students = await Student.find();
+    res.json(students);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
